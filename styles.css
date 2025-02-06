@@ -1,0 +1,99 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background-color: rgba(39, 39, 39, 0.793);
+}
+
+p {
+    text-align: justify;
+}
+
+.nota {
+    font-size: 13px;
+}
+#map {
+    height: 90vh;
+    width: 100%;
+}
+
+#control-panel {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#geojson-files {
+    width: 100%;
+    margin-top: 5px;
+}
+
+.leaflet-popup-content-wrapper {
+    max-width: 300px; 
+    overflow: hidden; 
+}
+
+.leaflet-popup-content {
+    max-height: 200px; 
+    overflow-y: auto;
+}
+
+.leaflet-popup-content table {
+    width: 100%; 
+    border-collapse: collapse; 
+}
+
+.leaflet-popup-content td, .leaflet-popup-content th {
+    word-wrap: break-word; 
+    font-size: 12px; 
+    padding: 5px;
+    text-align: left; 
+    border: 1px solid #ddd; 
+}
+
+.leaflet-popup-content th {
+    background-color: #f8f9fa; 
+    font-weight: bold;
+}
+
+.leaflet-popup-content a.btn {
+    text-decoration: none;
+    color: #fff;
+    font-size: 12px;
+}
+
+
+#control-panel {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#geojson-files {
+    width: 100%;
+    margin-top: 5px;
+}
+
+
+#info-panel {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
+    width: 300px;
+    max-height: 60vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: none; 
+}
+

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FuegoLab</title>
+    <link rel="shortcut icon" href="/web/img/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+</head>
+<body>
+<header class="navbar navbar-dark bg-dark p-3">
+    <div class="container d-flex align-items-center justify-content-between">
+    
+      <div class="d-flex align-items-center">
+        <img src="/web/img/logo.png" alt="Logo Incendios y Percepción Remota" style="height: 50px;" class="me-2">
+        <div>
+          <h2 class="text-white m-0"> FuegoLab</h2>
+          <h6 class="text-white m-0">Análisis de incendios con Percepción Remota (S2)</h6>
+        </div>
+      </div>
+      <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#infoModal">
+        <i class="bi bi-info-circle"></i>
+      </button>
+    </div>
+  </header>
+      
+
+<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="infoModalLabel">Acerca de</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+            <p>
+            <b>¿Qué es FuegoLab?</b>
+          <br>
+          
+          FuegoLab es un geoportal en el que podrás comenzar con el análisis de cualquier incendio 
+          ocurrido en México durante el período 2022-2024 mediante imágenes satelitales multiespectrales. 
+          <br><br>
+          <b>¿Cómo usar FuegoLab?</b>
+          <br>
+          1. Selecciona el año de tu interés
+          <br>
+          2. Selecciona el incendio de tu interés
+          <br>
+          3. Haz clic en <i>'Ver en Satélite'</i>
+          <br>
+          4. Navega en Copernicus Browser en las fechas más cercanas al incendio
+          <br>
+          5. Visualiza, analiza o descarga la imagen satelital desde Copernicus Browser
+          <br>
+          <br>
+          <b>Función de filtro</b><br>
+          Con los filtros de superficie, podrás graficar los incendios que se encuentren con la extensión de 
+          tu interés. 
+          </p>
+          <p><b>Guía de Copernicus Browser</b></p>
+          <img class="gif img-fluid" src="/web/vid/2.gif">
+          <br>
+          <p class="nota"><i>* La precisión temporal varía con la realidad debido a la naturaleza
+            de los datos, por lo que es posible que debas desplazarte días atrás o adelante del señalado </i> <br>
+            <i>* Los datos utilizados provienen de la Comisión Nacional Forestal (CONAFOR)</i></p>
+        
+            Geoportal creado por <b>Eduardo Lemus</b>
+            <br>
+            Contacto: <b>geobuscador.sig@gmail.com</b>
+        
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+    
+<div id="control-panel">
+    <label for="geojson-files" class="text-white bg-dark p-2 rounded">Seleccionar Año:</label>
+    <select id="geojson-files" class="form-select">
+        <option value="geojsons/datos_con_links_2022.geojson">Incendios 2022</option>
+        <option value="geojsons/datos_con_links_2023.geojson">Incendios 2023</option>
+        <option value="geojsons/datos_con_links_2024.geojson">Incendios 2024</option>
+    </select>
+    <button id="toggle-heatmap" class="btn btn-warning mt-2" data-active="false">Activar Mapa de Calor</button>
+
+    <div id="filter-panel" class="bg-dark text-white p-2 rounded mt-2">
+        <h6>Filtro por Superficie</h6>
+        <div class="mb-2">
+            <label for="filter-min">Mínimo: <span id="filter-min-value"></span></label>
+            <input type="range" id="filter-min" class="form-range">
+        </div>
+        <div class="mb-2">
+            <label for="filter-max">Máximo: <span id="filter-max-value"></span></label>
+            <input type="range" id="filter-max" class="form-range">
+        </div>
+        <button id="apply-filter" class="btn btn-primary btn-sm">Aplicar Filtro</button>
+        <button id="cancel-filter" class="btn btn-secondary btn-sm">Cancelar Filtro</button>
+    </div>
+</div>
+
+    <div id="map"></div>
+
+    <div id="info-panel" class="bg-light p-3 border rounded">
+        <button id="close-info" class="btn-close float-end" aria-label="Cerrar"></button>
+        <h5>Información del Incendio</h5>
+        <table class="table table-sm table-bordered">
+            <thead id="info-header"></thead>
+            <tbody id="info-body"></tbody>
+        </table>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+    <script src="/web/mapa-init.js"></script>
+    <script src="/web/helpers.js"></script>
+    <script src="/web/geojson.js"></script>
+</body>
+</html>
